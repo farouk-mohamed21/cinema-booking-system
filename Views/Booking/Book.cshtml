@@ -1,0 +1,67 @@
+﻿@model CinemaBooking2.ViewModels.BookingVM
+@{
+    ViewData["Title"] = "Book Tickets";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow p-4">
+            <h2 class="mb-4">🎟 Book Tickets</h2>
+
+            <table class="table table-dark mb-4">
+                <tr><th>Movie</th><td>@Model.MovieTitle</td></tr>
+                <tr><th>Cinema</th><td>@Model.CinemaName</td></tr>
+                <tr><th>Hall</th><td>@Model.HallName</td></tr>
+                <tr><th>Date & Time</th><td>@Model.StartTime.ToString("dd MMM yyyy hh:mm tt")</td></tr>
+                <tr><th>Price per seat</th><td>$@Model.Price</td></tr>
+                <tr>
+                    <th>Available Seats</th>
+                    <td><span class="badge bg-success">@Model.AvailableSeats</span></td>
+                </tr>
+            </table>
+
+            <form asp-action="Book" method="post">
+                <input type="hidden" asp-for="ShowtimeId" />
+                <input type="hidden" asp-for="MovieTitle" />
+                <input type="hidden" asp-for="HallName" />
+                <input type="hidden" asp-for="CinemaName" />
+                <input type="hidden" asp-for="StartTime" />
+                <input type="hidden" asp-for="Price" />
+                <input type="hidden" asp-for="AvailableSeats" />
+
+                <div class="mb-3">
+                    <label asp-for="SeatsCount" class="form-label fw-bold">
+                        Number of Seats
+                    </label>
+                    <input asp-for="SeatsCount" id="seatsInput" type="number"
+                           min="1" max="@Model.AvailableSeats"
+                           class="form-control bg-dark text-white border-secondary" />
+                    <span asp-validation-for="SeatsCount" class="text-danger"></span>
+                </div>
+
+                <div class="alert alert-info">
+                    <strong>Total Price:</strong>
+                    <span id="totalPrice" class="fs-4">$@Model.Price</span>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 btn-lg">
+                    🎟 Confirm Booking
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        const price      = @Model.Price;
+        const seatsInput = document.getElementById('seatsInput');
+        const totalPrice = document.getElementById('totalPrice');
+
+        seatsInput.addEventListener('input', function () {
+            const seats = parseInt(this.value) || 0;
+            totalPrice.textContent = '$' + (seats * price).toFixed(2);
+        });
+    </script>
+}

@@ -1,0 +1,41 @@
+﻿@model IEnumerable<CinemaBooking2.Models.Cinema>
+@{
+    ViewData["Title"] = "Cinemas";
+}
+
+<h2 class="mb-4">🏛 Our Cinemas</h2>
+
+<div class="row g-4">
+    @foreach (var cinema in Model)
+    {
+        <div class="col-md-6">
+            <div class="card h-100 shadow">
+                <div class="card-body">
+                    <h4 class="card-title">🎭 @cinema.Name</h4>
+                    <p class="text-muted">📍 @cinema.Location</p>
+                    <hr style="border-color:#444;" />
+                    <h6>Halls:</h6>
+                    @if (!cinema.Halls.Any())
+                    {
+                        <p class="text-muted">No halls available.</p>
+                    }
+                    else
+                    {
+                        <ul class="list-group list-group-flush">
+                            @foreach (var hall in cinema.Halls)
+                            {
+                                <li class="list-group-item"
+                                    style="background:#1a2a4a; color:#f0f0f0; border-color:#333;">
+                                    🎪 @hall.Name
+                                    <span class="badge bg-primary float-end">
+                                        @hall.Capacity seats
+                                    </span>
+                                </li>
+                            }
+                        </ul>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>

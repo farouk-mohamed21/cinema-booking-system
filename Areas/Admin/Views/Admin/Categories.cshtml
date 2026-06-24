@@ -1,0 +1,53 @@
+﻿@model IEnumerable<CinemaBooking2.Models.Category>
+@{
+    ViewData["Title"] = "Manage Categories";
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card shadow p-4 mb-4">
+            <h4>➕ Add Category</h4>
+            <form asp-action="CreateCategory" method="post">
+                <div class="mb-3">
+                    <label class="form-label">Category Name</label>
+                    <input name="Name" class="form-control bg-dark text-white border-secondary"
+                           placeholder="e.g. Animation" required />
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Add</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <h2 class="mb-4">🏷 Categories</h2>
+        <div class="table-responsive">
+            <table class="table table-dark table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Movies</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var cat in Model)
+                    {
+                        <tr>
+                            <td>@cat.Id</td>
+                            <td>@cat.Name</td>
+                            <td>@cat.Movies.Count</td>
+                            <td>
+                                <form asp-action="DeleteCategory" method="post" class="d-inline"
+                                      onsubmit="return confirm('Delete this category?')">
+                                    <input type="hidden" name="id" value="@cat.Id" />
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

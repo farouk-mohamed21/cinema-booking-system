@@ -1,0 +1,78 @@
+﻿@model IEnumerable<CinemaBooking2.Models.Cinema>
+@{
+    ViewData["Title"] = "Manage Cinemas";
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card shadow p-4 mb-4">
+            <h4>➕ Add Cinema</h4>
+            <form asp-action="CreateCinema" method="post">
+                <div class="mb-3">
+                    <label class="form-label">Cinema Name</label>
+                    <input name="Name" class="form-control bg-dark text-white border-secondary"
+                           placeholder="e.g. Grand Cinema" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Location</label>
+                    <input name="Location" class="form-control bg-dark text-white border-secondary"
+                           placeholder="e.g. Cairo" required />
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Add Cinema</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <h2 class="mb-4">🏛 Cinemas & Halls</h2>
+        @foreach (var cinema in Model)
+        {
+            <div class="card mb-4 shadow">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">🎭 @cinema.Name — 📍 @cinema.Location</h5>
+                    <form asp-action="DeleteCinema" method="post" class="d-inline"
+                          onsubmit="return confirm('Delete this cinema?')">
+                        <input type="hidden" name="id" value="@cinema.Id" />
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                </div>
+                <div class="card-body">
+                    <h6>Halls:</h6>
+                    @if (cinema.Halls.Any())
+                    {
+                        <ul class="list-group list-group-flush mb-3">
+                            @foreach (var hall in cinema.Halls)
+                            {
+                                <li class="list-group-item d-flex justify-content-between align-items-center"
+                                    style="background:#1a2a4a; color:#f0f0f0; border-color:#333;">
+                                    🎪 @hall.Name
+                                    <span class="badge bg-primary">@hall.Capacity seats</span>
+                                    <form asp-action="DeleteHall" method="post" class="d-inline"
+                                          onsubmit="return confirm('Delete this hall?')">
+                                        <input type="hidden" name="id" value="@hall.Id" />
+                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                    </form>
+                                </li>
+                            }
+                        </ul>
+                    }
+                    <form asp-action="CreateHall" method="post" class="row g-2">
+                        <input type="hidden" name="CinemaId" value="@cinema.Id" />
+                        <div class="col-md-4">
+                            <input name="Name" class="form-control bg-dark text-white border-secondary"
+                                   placeholder="Hall name" required />
+                        </div>
+                        <div class="col-md-4">
+                            <input name="Capacity" type="number"
+                                   class="form-control bg-dark text-white border-secondary"
+                                   placeholder="Capacity" required />
+                        </div>
+                        <div class="col-md-4">
+                            <button type="submit" class="btn btn-success w-100">Add Hall</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,47 @@
+﻿@model IEnumerable<CinemaBooking2.Models.Movie>
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="text-center py-5 mb-5" style="background: linear-gradient(135deg, #1a1a2e, #e94560); border-radius: 15px;">
+    <h1 class="display-4 fw-bold">🎬 Welcome to CinemaBooking</h1>
+    <p class="lead">Book your tickets online — fast, easy, and secure.</p>
+    <a asp-controller="Home" asp-action="Movies" class="btn btn-light btn-lg mt-3">
+        Browse Movies
+    </a>
+</div>
+
+<h2 class="mb-4">🎥 Now Showing</h2>
+<div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
+    @foreach (var movie in Model.Take(8))
+    {
+        <div class="col">
+            <div class="card h-100 shadow">
+                @if (movie.PosterPath != null)
+                {
+                    <img src="@movie.PosterPath" class="card-img-top"
+                         style="height:250px; object-fit:cover;" alt="@movie.Title" />
+                }
+                else
+                {
+                    <div class="d-flex align-items-center justify-content-center"
+                         style="height:250px; background:#0f3460; font-size:4rem;">
+                        🎬
+                    </div>
+                }
+                <div class="card-body">
+                    <h5 class="card-title">@movie.Title</h5>
+                    <span class="badge bg-danger">@movie.Category.Name</span>
+                    <p class="card-text mt-2 text-muted small">⏱ @movie.Duration min</p>
+                </div>
+                <div class="card-footer">
+                    <a asp-controller="Home" asp-action="MovieDetails"
+                           asp-route-id="@movie.Id"
+                           class="btn btn-primary w-100">
+                        View Showtimes
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

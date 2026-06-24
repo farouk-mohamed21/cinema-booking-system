@@ -1,0 +1,73 @@
+﻿@model IEnumerable<CinemaBooking2.Models.Booking>
+@{
+    ViewData["Title"] = "My Bookings";
+}
+
+<h2 class="mb-4">🎟 My Bookings</h2>
+
+@if (!Model.Any())
+{
+    <div class="text-center py-5">
+        <div style="font-size:4rem;">🎬</div>
+        <h4>No bookings yet!</h4>
+        <a asp-controller="Home" asp-action="Movies" class="btn btn-primary mt-3">
+            Browse Movies
+        </a>
+    </div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-dark table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Movie</th>
+                    <th>Cinema</th>
+                    <th>Hall</th>
+                    <th>Date & Time</th>
+                    <th>Seats</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var b in Model)
+                {
+                    <tr>
+                        <td>@b.Id</td>
+                        <td>@b.Showtime.Movie.Title</td>
+                        <td>@b.Showtime.Hall.Cinema.Name</td>
+                        <td>@b.Showtime.Hall.Name</td>
+                        <td>@b.Showtime.StartTime.ToString("dd MMM yyyy hh:mm tt")</td>
+                        <td>@b.SeatsCount</td>
+                        <td>$@b.TotalPrice</td>
+                        <td>
+                            @if (b.Showtime.HasStarted)
+                            {
+                                <span class="badge bg-secondary">Completed</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-success">Upcoming</span>
+                            }
+                        </td>
+                        <td>
+                            @if (b.CanCancel)
+                            {
+                                <form asp-action="Cancel" method="post"
+                                      onsubmit="return confirm('Cancel this booking?')">
+                                    <input type="hidden" name="bookingId" value="@b.Id" />
+                                    <button type="submit" class="btn btn-danger btn-sm">
+                                        Cancel
+                                    </button>
+                                </form>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

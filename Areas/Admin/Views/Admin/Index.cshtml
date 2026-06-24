@@ -1,0 +1,60 @@
+﻿@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<h2 class="mb-4">⚙ Admin Dashboard</h2>
+
+<div class="row g-4">
+    <div class="col-md-3">
+        <div class="card text-center shadow" style="background:#0f3460;">
+            <div class="card-body">
+                <div style="font-size:3rem;">🎬</div>
+                <h3>@ViewBag.Movies</h3>
+                <p>Movies</p>
+                <a asp-action="Movies" class="btn btn-primary btn-sm">Manage</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center shadow" style="background:#1a1a2e;">
+            <div class="card-body">
+                <div style="font-size:3rem;">🏛</div>
+                <h3>@ViewBag.Cinemas</h3>
+                <p>Cinemas</p>
+                <a asp-action="Cinemas" class="btn btn-primary btn-sm">Manage</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center shadow" style="background:#16213e;">
+            <div class="card-body">
+                <div style="font-size:3rem;">🕐</div>
+                <h3>@ViewBag.Showtimes</h3>
+                <p>Showtimes</p>
+                <a asp-action="Showtimes" class="btn btn-primary btn-sm">Manage</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center shadow" style="background:#0f3460;">
+            <div class="card-body">
+                <div style="font-size:3rem;">🎟</div>
+                <h3>@ViewBag.Bookings</h3>
+                <p>Bookings</p>
+                <a asp-action="Bookings" class="btn btn-primary btn-sm">View All</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4 g-3">
+    <div class="col-md-4">
+        <a asp-action="Movies" class="btn btn-outline-light w-100 py-3">🎬 Manage Movies</a>
+    </div>
+    <div class="col-md-4">
+        <a asp-action="Categories" class="btn btn-outline-light w-100 py-3">🏷 Manage Categories</a>
+    </div>
+    <div class="col-md-4">
+        <a asp-action="Showtimes" class="btn btn-outline-light w-100 py-3">🕐 Manage Showtimes</a>
+    </div>
+</div>

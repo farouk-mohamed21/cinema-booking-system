@@ -1,0 +1,51 @@
+﻿@model IEnumerable<CinemaBooking2.Models.Booking>
+@{
+    ViewData["Title"] = "All Bookings";
+}
+
+<h2 class="mb-4">🎟 All Bookings</h2>
+
+<div class="table-responsive">
+    <table class="table table-dark table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Customer</th>
+                <th>Movie</th>
+                <th>Cinema</th>
+                <th>Hall</th>
+                <th>Showtime</th>
+                <th>Seats</th>
+                <th>Total</th>
+                <th>Booked At</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var b in Model)
+            {
+                <tr>
+                    <td>@b.Id</td>
+                    <td>@b.User.FullName</td>
+                    <td>@b.Showtime.Movie.Title</td>
+                    <td>@b.Showtime.Hall.Cinema.Name</td>
+                    <td>@b.Showtime.Hall.Name</td>
+                    <td>@b.Showtime.StartTime.ToString("dd MMM yyyy hh:mm tt")</td>
+                    <td>@b.SeatsCount</td>
+                    <td>$@b.TotalPrice</td>
+                    <td>@b.BookingDate.ToString("dd MMM yyyy")</td>
+                    <td>
+                        @if (b.Showtime.HasStarted)
+                        {
+                            <span class="badge bg-secondary">Completed</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-success">Upcoming</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

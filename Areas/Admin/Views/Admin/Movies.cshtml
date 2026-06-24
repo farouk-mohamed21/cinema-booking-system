@@ -1,0 +1,55 @@
+﻿@model IEnumerable<CinemaBooking2.Models.Movie>
+@{
+    ViewData["Title"] = "Manage Movies";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>🎬 Manage Movies</h2>
+    <a asp-action="CreateMovie" class="btn btn-primary">+ Add Movie</a>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-dark table-hover">
+        <thead>
+            <tr>
+                <th>Poster</th>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Duration</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var movie in Model)
+            {
+                <tr>
+                    <td>
+                        @if (movie.PosterPath != null)
+                        {
+                            <img src="@movie.PosterPath"
+                                 style="width:50px; height:70px; object-fit:cover;"
+                                 class="rounded" />
+                        }
+                        else
+                        {
+
+                            <span>🎬</span>
+                        }
+                    </td>
+                    <td>@movie.Title</td>
+                    <td><span class="badge bg-danger">@movie.Category.Name</span></td>
+                    <td>@movie.Duration min</td>
+                    <td>
+                        <a asp-action="EditMovie" asp-route-id="@movie.Id"
+                           class="btn btn-warning btn-sm">Edit</a>
+                        <form asp-action="DeleteMovie" method="post" class="d-inline"
+                              onsubmit="return confirm('Delete this movie?')">
+                            <input type="hidden" name="id" value="@movie.Id" />
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
